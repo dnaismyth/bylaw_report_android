@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
     android:background="@color/cityBlue"
     android:orientation="vertical">
 
@@ -41,10 +41,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/phone" />
 
-    <Button
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_continue"
-        android:onClick="sendMessage" />
+        android:layout_height="match_parent"
+        android:gravity="bottom">
 
+        <Button
+            android:layout_width="match_parent"
+            android:text="@string/button_continue"
+            style="@style/continueButton"
+            android:onClick="sendReporterInfo" />
+
+    </RelativeLayout>
 </LinearLayout>

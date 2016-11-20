@@ -15,7 +15,6 @@
         style="@style/continueButton"
         android:layout_width="match_parent"
         android:text="@string/report_continue"
-        android:textSize="30sp"
         android:onClick="beginReport" />
 </RelativeLayout>
 </LinearLayout>
