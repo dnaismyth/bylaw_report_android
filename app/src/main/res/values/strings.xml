@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="user_info_message">Please provide us with some information.</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">E-mail</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone</string>
+    <string name="button_continue">Continue</string>
+    <string name="report_continue">Begin Report</string>
+    <string name="main_title">Bylaw Report</string>
+    </resources>
