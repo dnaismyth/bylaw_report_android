@@ -9,4 +9,10 @@
     <string name="button_continue">Continue</string>
     <string name="report_continue">Begin Report</string>
     <string name="main_title">Bylaw Report</string>
-    </resources>
+    <string name="incident_date">Date of Incident</string>
+    <string name="report_description">Please provide us with a description of the incident</string>
+    <string name="vehicle_description">Please provide us with a description of the vehicle</string>
+    <string name="vehicle_violation">Vehicle</string>
+    <string name="property_violation">Property</string>
+    <string name="other_violation">Other</string>
+</resources>

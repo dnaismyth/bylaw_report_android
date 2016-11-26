@@ -1,4 +1,4 @@
-package com.bylawreport.flow.bylawreport;
+package com.bylawreport.flow.bylawreport.activities;
 
 import java.lang.reflect.Field;
 import android.content.Context;

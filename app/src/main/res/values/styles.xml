@@ -17,4 +17,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_height">140sp</item>
     </style>
+
+    <style name="noAnimTheme" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 </resources>

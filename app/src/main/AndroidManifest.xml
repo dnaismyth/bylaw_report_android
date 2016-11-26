@@ -8,9 +8,13 @@
         android:label="@string/main_title"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.UserInformationActivity" />
+        <activity android:name=".activities.ReportInformationActivity" />
+        <activity android:name=".activities.ViolationTypeActivity" />
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
 
 
 
