@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/BylawReport/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/23.3.0.iml" filepath="$PROJECT_DIR$/BylawReport/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/23.3.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/BylawReport/app/build/generated/source/buildConfig/androidTest/androidTest.iml" filepath="$PROJECT_DIR$/BylawReport/app/build/generated/source/buildConfig/androidTest/androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/BylawReport/app/src/androidTest/androidTest1.iml" filepath="$PROJECT_DIR$/BylawReport/app/src/androidTest/androidTest1.iml" />
@@ -11,6 +12,10 @@
       <module fileurl="file://$PROJECT_DIR$/BylawReport/app/src/main/main.iml" filepath="$PROJECT_DIR$/BylawReport/app/src/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/BylawReport/app/build/generated/source/r/r.iml" filepath="$PROJECT_DIR$/BylawReport/app/build/generated/source/r/r.iml" />
       <module fileurl="file://$PROJECT_DIR$/BylawReport/app/src/test/test.iml" filepath="$PROJECT_DIR$/BylawReport/app/src/test/test.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/BylawReport.iml" filepath="$PROJECT_DIR$/BylawReport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+>>>>>>> 2b95f2c03c83d81cc393aa03de6b4e9c1eec91b1
     </modules>
   </component>
 </project>

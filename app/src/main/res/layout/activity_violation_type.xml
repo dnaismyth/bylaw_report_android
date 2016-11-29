@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:background="@color/cityBlue"
+    android:orientation="vertical">
+
+<!-- Radio Group For Violation Types -->
+<RadioGroup
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/radioGroup_violation">
+
+    <RadioButton android:id="@+id/vehicle_violation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vehicle_violation"/>
+
+    <RadioButton android:id="@+id/property_violation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/property_violation"/>
+
+    <RadioButton android:id="@+id/other_violation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/other_violation" />
+
+</RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/beginUserInfoBtn"
+            android:layout_width="match_parent"
+            android:text="@string/button_continue"
+            style="@style/continueButton"
+            android:onClick="sendViolationTypeChoice"/>
+
+    </RelativeLayout>
+</LinearLayout>
