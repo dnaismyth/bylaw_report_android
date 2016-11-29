@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="debug">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BylawReport/app/build/intermediates/instant-run-support/debug/classes.zip!/" />
+      <root url="jar://$PROJECT_DIR$/BylawReport/app/build/intermediates/instant-run-support/debug/resources.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
