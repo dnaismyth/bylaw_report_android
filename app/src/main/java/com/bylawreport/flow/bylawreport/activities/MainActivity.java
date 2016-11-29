@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.network.RestReportClientUsage;
+
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void beginReport(View view){
+    public void beginReport(View view) throws JSONException {
         //setContentView(R.layout.activity_violation_type);
         Intent i = new Intent(getApplicationContext(), ViolationTypeActivity.class);
         startActivity(i);

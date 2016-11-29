@@ -36,9 +36,9 @@
 
         <Button
             android:layout_width="match_parent"
-            android:text="@string/button_continue"
+            android:text="@string/send_report"
             style="@style/continueButton"
-            android:onClick="sendReportInfo" />
+            android:onClick="sendBylawReport" />
 
     </RelativeLayout>
 </LinearLayout>

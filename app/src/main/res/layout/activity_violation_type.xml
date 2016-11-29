@@ -14,7 +14,7 @@
     android:orientation="vertical"
     android:id="@+id/radioGroup_violation">
 
-    <RadioButton android:id="@+id/radio_vehicle"
+    <RadioButton android:id="@+id/vehicle_violation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/vehicle_violation"/>

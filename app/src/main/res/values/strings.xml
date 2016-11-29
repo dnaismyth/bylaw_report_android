@@ -7,6 +7,7 @@
     <string name="address">Address</string>
     <string name="phone">Phone</string>
     <string name="button_continue">Continue</string>
+    <string name="send_report">Send Report</string>
     <string name="report_continue">Begin Report</string>
     <string name="main_title">Bylaw Report</string>
     <string name="incident_date">Date of Incident</string>

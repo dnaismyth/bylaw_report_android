@@ -3,6 +3,7 @@ package com.bylawreport.flow.bylawreport.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.RadioButton;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.models.ViolationType;
 
 /**
  * Created by DN on 2016-11-20.
@@ -17,8 +19,9 @@ import com.bylawreport.flow.bylawreport.R;
 public class ViolationTypeActivity extends AppCompatActivity {
 
     private RadioGroup violationTypeGroup;
-    private RadioButton violationBtn;
     private Button continueBtn;
+    private ViolationType type = null;
+    private static final String INVALID_MESSAGE = "Please select a violation type.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -40,14 +43,33 @@ public class ViolationTypeActivity extends AppCompatActivity {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
                RadioButton rb = (RadioButton) group.findViewById(checkedId);
+
                if(null!=rb && checkedId > -1){
-                   Toast.makeText(ViolationTypeActivity.this, rb.getText(), Toast.LENGTH_SHORT).show(); // temporary, store user input
+                   String buttonId = getButtonStringId(rb, checkedId);
+                   switch(buttonId){
+                       case "vehicle_violation":
+                           type = ViolationType.TRAFFIC;
+                           break;
+                       case "property_violation":
+                           type = ViolationType.PROPERTY;
+                           break;
+                       case "other_violation":
+                           type = ViolationType.OTHER;
+                           break;
+                   }
                }
            }
        } );
+    }
 
-
-
+    /**
+     * Return the string id of the button chosen
+     * @param rb
+     * @param checkedId
+     * @return
+     */
+    private String getButtonStringId(RadioButton rb, int checkedId){
+        return rb.getResources().getResourceEntryName(checkedId);
     }
 
     /**
@@ -55,8 +77,23 @@ public class ViolationTypeActivity extends AppCompatActivity {
      * @param view
      */
     public void sendViolationTypeChoice(View view){
-        Intent i = new Intent(getApplicationContext(), UserInformationActivity.class);
-        startActivity(i);
+
+        if(formIsValid()) {
+            Intent i = new Intent(getApplicationContext(), UserInformationActivity.class);
+            i.putExtra("violationType", type);
+            startActivity(i);
+        } else {
+            Toast.makeText(getBaseContext(),INVALID_MESSAGE, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
+    // Check that the form is valid and a type has been selected
+    private boolean formIsValid(){
+        boolean approved = false;
+        if(type != null){
+            approved = true;
+        }
+        return approved;
+    }
 }
