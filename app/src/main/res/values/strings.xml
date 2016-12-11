@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Bylaw Report</string>
     <string name="user_info_message">Please provide us with some information.</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -16,4 +17,7 @@
     <string name="vehicle_violation">Vehicle</string>
     <string name="property_violation">Property</string>
     <string name="other_violation">Other</string>
+    <string name="attach_picture">Attach Image</string>
+    <string name="request_permission">Please enable camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 </resources>

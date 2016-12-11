@@ -19,7 +19,6 @@ import java.util.List;
  * Created by DN on 2016-11-20.
  */
 public class UserInformationActivity extends AppCompatActivity {
-
     private UserInformation currentUserInfo = null;
     private static final String INVALID_EMPTY_FIELD_MESSAGE = "This field cannot be left blank.";
     private static final String INVALID_FORM_MESSAGE = "Please fill out all required fields.";

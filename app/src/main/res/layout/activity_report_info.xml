@@ -29,6 +29,17 @@
         android:layout_height="wrap_content"
         android:hint="@string/email" />
 
+    <ImageView android:id="@+id/imageView"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/attach_image_btn"
+        android:layout_width="match_parent"
+        android:text="Attach Image"
+        style="@style/continueButton" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
