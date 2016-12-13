@@ -14,6 +14,7 @@ import java.net.URLEncoder;
  * Report Client to communicate with REST API
  */
 public class ReportClient {
+
     private static final String API_BASE_URL = "http://192.168.1.64:8080";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
@@ -26,15 +27,20 @@ public class ReportClient {
         return API_BASE_URL + relativeUrl;
     }
 
+    // Create api url
+    private static String getAbsoluteUrl(String url){
+        return API_BASE_URL.concat(url);
+    }
+
     // Method to create a bylaw report
     public static void post(final String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
             String absoluteUrl = getAbsoluteUrl(url);
             client.post(absoluteUrl, params, responseHandler);
     }
 
-    // Create api url
-    private static String getAbsoluteUrl(String url){
-        return API_BASE_URL.concat(url);
+    public static void get(final String url, AsyncHttpResponseHandler responseHandler) {
+        String absoluteUrl = getAbsoluteUrl(url);
+        client.get(absoluteUrl, responseHandler);
     }
 
 }
