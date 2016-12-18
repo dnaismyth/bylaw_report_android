@@ -95,9 +95,9 @@ public class ReportInformationActivity extends AppCompatActivity {
         setupCameraListener();  // set up camera listener
     }
 
-    public void sendBylawReport(View view) throws JSONException {
-        RestReportClientUsage.createBylawReport();
-    }
+//    public void sendBylawReport(View view) throws JSONException {
+//        RestReportClientUsage.createBylawReport();
+//    }
 
     public boolean isCaptured() {
         return isCaptured;
