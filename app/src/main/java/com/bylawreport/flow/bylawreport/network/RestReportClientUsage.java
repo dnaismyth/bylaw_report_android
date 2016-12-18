@@ -37,10 +37,11 @@ public class RestReportClientUsage {
      * Return S3 Credentials to be used for posting images into s3 bucket
      * @throws JSONException
      */
-    public void getS3Credentials() {
+    public String getS3Credentials() throws ExecutionException, InterruptedException {
         HttpGetRequest getRequest = new HttpGetRequest();
         String url = buildApiUrl(GET_S3_CREDENTIALS);
-        getRequest.execute(url);
+        String credentials =  getRequest.execute(url).get();
+        return credentials;
     }
 
     /**
@@ -56,5 +57,23 @@ public class RestReportClientUsage {
     private String buildApiUrl(String URI){
         return API_BASE_URL + URI;
     }
+
+    /**
+     * Convert result to JSON Object
+     * @param result
+     * @return
+     */
+    public JSONObject convertResultToJSON(String result){
+        JSONObject obj = null;
+        if(result != null) {
+            try {
+                obj = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return obj;
+    }
+
 }
 
