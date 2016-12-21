@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.models.Constants;
 import com.bylawreport.flow.bylawreport.models.ViolationType;
 
 /**
@@ -80,7 +81,7 @@ public class ViolationTypeActivity extends AppCompatActivity {
 
         if(formIsValid()) {
             Intent i = new Intent(getApplicationContext(), UserInformationActivity.class);
-            i.putExtra("violationType", type);
+            i.putExtra(String.valueOf(Constants.VIOLATION_TYPE), type);
             startActivity(i);
         } else {
             Toast.makeText(getBaseContext(),INVALID_MESSAGE, Toast.LENGTH_SHORT).show();

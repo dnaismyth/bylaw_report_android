@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.models.Constants;
 import com.bylawreport.flow.bylawreport.network.RestReportClientUsage;
 
 import org.json.JSONException;
@@ -17,8 +18,6 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     private final String FUTURA_FONT = "fonts/FuturaLT.ttf";
-    private final String RESPONSE_DATA = "data";
-    private final String ACCESS_TOKEN = "id_token";
     private RestReportClientUsage reportClient;
 
     @Override
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         JSONObject obj = null;
         try {
             obj = new JSONObject(guestUser);
-            token = obj.getString(ACCESS_TOKEN);
+            token = obj.getString(String.valueOf(Constants.ACCESS_TOKEN));  // store the access token into a variable
         } catch (JSONException e) {
             e.printStackTrace();
         }

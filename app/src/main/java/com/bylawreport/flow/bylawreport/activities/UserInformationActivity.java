@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.models.Constants;
 import com.bylawreport.flow.bylawreport.models.UserInformation;
 import com.bylawreport.flow.bylawreport.utilities.FieldValidatorUtil;
 
@@ -143,7 +144,7 @@ public class UserInformationActivity extends AppCompatActivity {
         if(formIsValid()) {
             currentUserInfo = buildUserInformationWithFormInput();   // build user information from form
             Intent i = new Intent(getApplicationContext(), ReportInformationActivity.class);
-            i.putExtra("currentUserInfo", currentUserInfo);
+            i.putExtra(String.valueOf(Constants.REPORTER_INFO), currentUserInfo);
             startActivity(i);
         } else {
             Toast.makeText(getBaseContext(),INVALID_FORM_MESSAGE, Toast.LENGTH_SHORT).show();

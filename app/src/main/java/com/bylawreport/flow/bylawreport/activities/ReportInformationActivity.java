@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.models.Constants;
 import com.bylawreport.flow.bylawreport.models.UserInformation;
 import com.bylawreport.flow.bylawreport.models.ViolationType;
 import com.bylawreport.flow.bylawreport.network.RestReportClientUsage;
@@ -83,12 +84,14 @@ public class ReportInformationActivity extends AppCompatActivity {
     private Display display;
     private Button cameraButton;
     private static boolean isCaptured = false;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        type = (ViolationType) getIntent().getSerializableExtra("violationType"); // set the violation type chosen
-        userInfo = (UserInformation) getIntent().getSerializableExtra("currentUserInfo");
+        type = (ViolationType) getIntent().getSerializableExtra(String.valueOf(Constants.VIOLATION_TYPE)); // set the violation type chosen
+        userInfo = (UserInformation) getIntent().getSerializableExtra(String.valueOf(Constants.REPORTER_INFO));
+        token = (String)getIntent().getSerializableExtra(String.valueOf(Constants.ACCESS_TOKEN));
         setContentView(R.layout.activity_report_info);
         display = getWindowManager().getDefaultDisplay();
         cameraButton = (Button) findViewById(R.id.attach_image_btn);
