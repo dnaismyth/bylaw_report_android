@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     private final String FUTURA_FONT = "fonts/FuturaLT.ttf";
+    private final String RESPONSE_DATA = "data";
+    private final String ACCESS_TOKEN = "id_token";
     private RestReportClientUsage reportClient;
 
     @Override
@@ -25,14 +27,8 @@ public class MainActivity extends AppCompatActivity {
         reportClient = new RestReportClientUsage();
         FontOverride.setDefaultFont(this, "DEFAULT", FUTURA_FONT);   // override font, use FuturaLT
         FontOverride.setDefaultFont(this, "MONOSPACE", FUTURA_FONT);   // override font, use FuturaLT
-        Log.d("HELLO:", "Main Activity class!");
         setContentView(R.layout.activity_main);
-        JSONObject guest = getDefaultGuestUser();
-        try {
-            Log.d("Hello Guest: ", guest.getJSONObject("data").getString("login"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String token = getDefaultGuestAccessToken();
     }
 
     public void beginReport(View view) throws JSONException {
@@ -41,18 +37,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Return default guest user to be used to create a bylaw report
+     * Return default guest user access token
      * @return
      */
-    private JSONObject getDefaultGuestUser() {
-        String guestUser = null;
+    private String getDefaultGuestAccessToken() {
+        String token = null;
+        String guestUser = reportClient.getDefaultGuestUser();
+        JSONObject obj = null;
         try {
-            guestUser = reportClient.getDefaultGuestUser();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+            obj = new JSONObject(guestUser);
+            token = obj.getString(ACCESS_TOKEN);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-        return reportClient.convertResultToJSON(guestUser);
+        return token;
     }
 }

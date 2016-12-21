@@ -47,10 +47,17 @@ public class RestReportClientUsage {
     /**
      * Return default guest user
      */
-    public String getDefaultGuestUser() throws ExecutionException, InterruptedException {
+    public String getDefaultGuestUser()  {
         HttpGetRequest getRequest = new HttpGetRequest();
         String url = buildApiUrl(GET_DEFAULT_GUEST_USER);
-        String output = getRequest.execute(url).get();
+        String output = null;
+        try {
+            output = getRequest.execute(url).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         return output;
     }
 
