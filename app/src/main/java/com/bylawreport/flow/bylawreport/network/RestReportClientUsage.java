@@ -16,7 +16,7 @@ import cz.msebera.android.httpclient.Header;
 public class RestReportClientUsage {
 
     private static final String CREATE_BYLAW = "/api/reports";
-    private static final String GET_S3_CREDENTIALS = "/api/users/s3token";
+    private static final String GET_S3_CREDENTIALS = "/api/guests/s3token";
     private static final String GET_DEFAULT_GUEST_USER = "/api/guests/activate";
     private static final String API_BASE_URL = "http://192.168.1.71:8080";
 
@@ -37,10 +37,18 @@ public class RestReportClientUsage {
      * Return S3 Credentials to be used for posting images into s3 bucket
      * @throws JSONException
      */
-    public String getS3Credentials() throws ExecutionException, InterruptedException {
+    public String getS3Credentials() {
         HttpGetRequest getRequest = new HttpGetRequest();
         String url = buildApiUrl(GET_S3_CREDENTIALS);
-        String credentials =  getRequest.execute(url).get();
+        String credentials = null;
+        try {
+            Log.d("REPORT_CLIENT: ", "requesting S3 credentials...");
+            credentials = getRequest.execute(url).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         return credentials;
     }
 

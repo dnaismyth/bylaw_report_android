@@ -144,7 +144,7 @@ public class UserInformationActivity extends AppCompatActivity {
         if(formIsValid()) {
             currentUserInfo = buildUserInformationWithFormInput();   // build user information from form
             Intent i = new Intent(getApplicationContext(), ReportInformationActivity.class);
-            i.putExtra(String.valueOf(Constants.REPORTER_INFO), currentUserInfo);
+            i.putExtra(Constants.REPORTER_INFO.getValue(), currentUserInfo);
             startActivity(i);
         } else {
             Toast.makeText(getBaseContext(),INVALID_FORM_MESSAGE, Toast.LENGTH_SHORT).show();

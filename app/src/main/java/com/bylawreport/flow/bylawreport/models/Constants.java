@@ -5,7 +5,7 @@ package com.bylawreport.flow.bylawreport.models;
  * Store constants to be used as references to REST Response data
  */
 public enum Constants {
-    ACCESS_TOKEN("accessToken"),    // guest user access token
+    ACCESS_TOKEN("id_token"),    // guest user access token
     RESPONSE_DATA("data"),          // data envelope
     REPORTER_INFO("currentUserInfo"), // basic reporter (user) information
     VIOLATION_TYPE("violationType"); // type of violation the user is reporting (property, vehicle etc..)
@@ -16,4 +16,6 @@ public enum Constants {
     Constants(String constant) {
         this.constant = constant;
     }
+
+    public String getValue() { return constant; }
 }

@@ -81,7 +81,7 @@ public class ViolationTypeActivity extends AppCompatActivity {
 
         if(formIsValid()) {
             Intent i = new Intent(getApplicationContext(), UserInformationActivity.class);
-            i.putExtra(String.valueOf(Constants.VIOLATION_TYPE), type);
+            i.putExtra(Constants.VIOLATION_TYPE.getValue(), type);
             startActivity(i);
         } else {
             Toast.makeText(getBaseContext(),INVALID_MESSAGE, Toast.LENGTH_SHORT).show();

@@ -13,21 +13,23 @@ import com.bylawreport.flow.bylawreport.network.RestReportClientUsage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.ExecutionException;
-
 public class MainActivity extends AppCompatActivity {
 
     private final String FUTURA_FONT = "fonts/FuturaLT.ttf";
     private RestReportClientUsage reportClient;
+    private String guestAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPrefSingleton.getInstance().Initialize(getApplicationContext());  // initialize instance of shared preferences
         reportClient = new RestReportClientUsage();
         FontOverride.setDefaultFont(this, "DEFAULT", FUTURA_FONT);   // override font, use FuturaLT
         FontOverride.setDefaultFont(this, "MONOSPACE", FUTURA_FONT);   // override font, use FuturaLT
         setContentView(R.layout.activity_main);
-        String token = getDefaultGuestAccessToken();
+
+        storeGuestAccessToken();    // store the guest's access token
     }
 
     public void beginReport(View view) throws JSONException {
@@ -45,10 +47,22 @@ public class MainActivity extends AppCompatActivity {
         JSONObject obj = null;
         try {
             obj = new JSONObject(guestUser);
-            token = obj.getString(String.valueOf(Constants.ACCESS_TOKEN));  // store the access token into a variable
+            token = obj.getString(Constants.ACCESS_TOKEN.getValue());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return token;
     }
+
+    /**
+     * Store the guest access token into shared preferences
+     */
+    private void storeGuestAccessToken(){
+        guestAccessToken = getDefaultGuestAccessToken();
+        if(guestAccessToken != null && !guestAccessToken.isEmpty()) {
+            Log.d("MAIN_ACTIVITY: ", "storing guest token...");
+            SharedPrefSingleton.getInstance().writePreference(Constants.ACCESS_TOKEN.getValue(), guestAccessToken);
+        }
+    }
+
 }
