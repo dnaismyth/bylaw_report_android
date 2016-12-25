@@ -9,11 +9,13 @@ public class S3Credentials {
     private String secretKey;
     private String accessKey;
     private String s3Bucket;
+    private String sessionToken;
 
-    public S3Credentials(String accessKey, String secretKey, String s3Bucket){
+    public S3Credentials(String accessKey, String secretKey, String sessionToken, String s3Bucket){
         this.accessKey = accessKey;
         this.secretKey = secretKey;
         this.s3Bucket = s3Bucket;
+        this.sessionToken = sessionToken;
     }
 
     public String getSecretKey() {
@@ -38,5 +40,13 @@ public class S3Credentials {
 
     public void setS3Bucket(String s3Bucket) {
         this.s3Bucket = s3Bucket;
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 }

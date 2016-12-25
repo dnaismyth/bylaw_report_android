@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void storeGuestAccessToken(){
         guestAccessToken = getDefaultGuestAccessToken();
-        if(guestAccessToken != null && !guestAccessToken.isEmpty()) {
+        if(guestAccessToken != null) {
             Log.d("MAIN_ACTIVITY: ", "storing guest token...");
             SharedPrefSingleton.getInstance().writePreference(Constants.ACCESS_TOKEN.getValue(), guestAccessToken);
         }

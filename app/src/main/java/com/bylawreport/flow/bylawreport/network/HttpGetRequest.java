@@ -34,7 +34,7 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
             connect.setRequestMethod(REQUEST_METHOD); // GET
             connect.setRequestProperty("Content-Type", CONTENT_TYPE);
             String auth = SharedPrefSingleton.getInstance().getPreferenceByName(Constants.ACCESS_TOKEN.getValue());
-            connect.setRequestProperty("Authorization", BEARER.concat(auth)); // set authorization from access token in shared prefs.
+            connect.setRequestProperty("Authorization", BEARER + auth); // set authorization from access token in shared prefs.
             //Connect to our url
             connect.connect();
             String responseMessage = connect.getResponseMessage();
