@@ -3,6 +3,9 @@ package com.bylawreport.flow.bylawreport.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bylawreport.flow.bylawreport.models.BylawReport;
+import com.bylawreport.flow.bylawreport.models.Media;
+import com.google.gson.Gson;
 import com.loopj.android.http.*;
 import org.json.*;
 
@@ -15,23 +18,29 @@ import cz.msebera.android.httpclient.Header;
  */
 public class RestReportClientUsage {
 
-    private static final String CREATE_BYLAW = "/api/reports";
+    private static final String CREATE_BYLAW_REPORT = "/api/reports";
     private static final String GET_S3_CREDENTIALS = "/api/guests/s3token";
     private static final String GET_DEFAULT_GUEST_USER = "/api/guests/activate";
     private static final String API_BASE_URL = "http://192.168.1.71:8080";
 
-//    /**
-//     * Post to create final bylaw report to send
-//     * @throws JSONException
-//     */
-//    public static void createBylawReport() throws JSONException{
-//        HttpGetRequest.post(CREATE_BYLAW_URL, null, new JsonHttpResponseHandler(){
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                Log.d("Making post call...", "success!");
-//            }
-//        });
-//    }
+    /**
+     * Post to create final bylaw report to send
+     * @throws JSONException
+     */
+    public void createBylawReport(BylawReport report, Media media) {
+        HttpPostRequest postRequest = new HttpPostRequest();
+        ReportAndMediaDTO postData = new ReportAndMediaDTO(report, media);
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(postData);
+        String url = buildApiUrl(CREATE_BYLAW_REPORT);
+        try {
+            postRequest.execute(url, jsonData ).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Return S3 Credentials to be used for posting images into s3 bucket

@@ -15,11 +15,11 @@ public class BylawReport {
     private String reporterPhone;
     private String reporterEmailAddress;
 
-    private Date incidentDate;
+    private String incidentDate;
     private String description;
     private ViolationType reportType;
 
-    private List<Media> reportMedia = new ArrayList<Media>();
+    private Media reportMedia;
 
     public String getReporterName() {
         return reporterName;
@@ -53,11 +53,11 @@ public class BylawReport {
         this.reporterEmailAddress = reporterEmailAddress;
     }
 
-    public Date getIncidentDate() {
+    public String getIncidentDate() {
         return incidentDate;
     }
 
-    public void setIncidentDate(Date incidentDate) {
+    public void setIncidentDate(String incidentDate) {
         this.incidentDate = incidentDate;
     }
 
@@ -77,11 +77,11 @@ public class BylawReport {
         this.reportType = reportType;
     }
 
-    public List<Media> getReportMedia() {
+    public Media getReportMedia() {
         return reportMedia;
     }
 
-    public void setReportMedia(List<Media> reportMedia) {
+    public void setReportMedia(Media reportMedia) {
         this.reportMedia = reportMedia;
     }
 }

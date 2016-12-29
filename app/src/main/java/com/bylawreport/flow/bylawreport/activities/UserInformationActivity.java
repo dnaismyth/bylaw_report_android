@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bylawreport.flow.bylawreport.R;
 import com.bylawreport.flow.bylawreport.models.Constants;
 import com.bylawreport.flow.bylawreport.models.UserInformation;
+import com.bylawreport.flow.bylawreport.models.ViolationType;
 import com.bylawreport.flow.bylawreport.utilities.FieldValidatorUtil;
 
 import java.util.ArrayList;
@@ -28,11 +29,14 @@ public class UserInformationActivity extends AppCompatActivity {
     String address = null;
     String firstName = null;
     String lastName = null;
+    private ViolationType type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        type = (ViolationType) getIntent().getSerializableExtra(Constants.VIOLATION_TYPE.getValue()); // set the violation type chosen
+
         addEditTextListeners();
     }
 
@@ -145,6 +149,7 @@ public class UserInformationActivity extends AppCompatActivity {
             currentUserInfo = buildUserInformationWithFormInput();   // build user information from form
             Intent i = new Intent(getApplicationContext(), ReportInformationActivity.class);
             i.putExtra(Constants.REPORTER_INFO.getValue(), currentUserInfo);
+            i.putExtra(Constants.VIOLATION_TYPE.getValue(), type);
             startActivity(i);
         } else {
             Toast.makeText(getBaseContext(),INVALID_FORM_MESSAGE, Toast.LENGTH_SHORT).show();

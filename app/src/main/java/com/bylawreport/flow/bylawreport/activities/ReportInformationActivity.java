@@ -1,29 +1,39 @@
 package com.bylawreport.flow.bylawreport.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.bylawreport.flow.bylawreport.R;
+import com.bylawreport.flow.bylawreport.models.BylawReport;
 import com.bylawreport.flow.bylawreport.models.Constants;
+import com.bylawreport.flow.bylawreport.models.Media;
+import com.bylawreport.flow.bylawreport.models.MediaData;
+import com.bylawreport.flow.bylawreport.models.MediaType;
 import com.bylawreport.flow.bylawreport.models.UserInformation;
 import com.bylawreport.flow.bylawreport.models.ViolationType;
 import com.bylawreport.flow.bylawreport.network.RestReportClientUsage;
 import com.bylawreport.flow.bylawreport.utilities.FieldValidatorUtil;
+import com.bylawreport.flow.bylawreport.utilities.MediaUtil;
 import com.bylawreport.flow.bylawreport.utilities.S3Util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import android.util.Log;
@@ -43,7 +53,10 @@ public class ReportInformationActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int IMAGE_X_SCALE = 3;
     private static final int IMAGE_Y_SCALE = 3;
+    private static final int MAX_SCALE_WIDTH = 500;
+    private static final int MAX_SCALE_HEIGHT = 500;
     private static final String IMAGE_DATA = "data";
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
     private RestReportClientUsage reportClient;
 
@@ -51,29 +64,38 @@ public class ReportInformationActivity extends AppCompatActivity {
     private UserInformation userInfo;
     private String incidentDescription = null;
     private String vehicleDescription = null;
-    private Date incidentDate = null;
+    private String incidentDate = null;
     private ImageView imageView;
     private Display display;
     private Button cameraButton;
     private static boolean isCaptured = false;
     private String token;
     private S3Util s3Util;
+    private MediaUtil mediaUtil;
+    private static Media reportMedia;
+    private static MediaData thumbnailData;
+    private static MediaData portraitData;
+    private EditText incident_date;
+    private Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mediaUtil = new MediaUtil();
         reportClient = new RestReportClientUsage();
         type = (ViolationType) getIntent().getSerializableExtra(Constants.VIOLATION_TYPE.getValue()); // set the violation type chosen
         userInfo = (UserInformation) getIntent().getSerializableExtra(Constants.REPORTER_INFO.getValue());
         setContentView(R.layout.activity_report_info);
         display = getWindowManager().getDefaultDisplay();
         cameraButton = (Button) findViewById(R.id.attach_image_btn);
-        setupCameraListener();  // set up camera listener
+        setCalendarDate();
+        setupInputListeners();
     }
 
-//    public void sendBylawReport(View view) throws JSONException {
-//        RestReportClientUsage.createBylawReport();
-//    }
+    public void sendBylawReport() {
+        BylawReport finalReport = buildReport(userInfo, type);
+        reportClient.createBylawReport(finalReport, getMedia());
+    }
 
     public boolean isCaptured() {
         return isCaptured;
@@ -97,32 +119,42 @@ public class ReportInformationActivity extends AppCompatActivity {
         });
     }
 
-    private void vehicleDescription() {
-        EditText vehicle_description = (EditText) findViewById(R.id.vehicle_description);
-        vehicle_description.addTextChangedListener(new FieldValidatorUtil(vehicle_description) {
-            @Override
-            public void validate(EditText editText, Object text) {
-                if (!isValidFieldText((String) text)) {
-                    editText.setError(INVALID_EMPTY_FIELD_MESSAGE);
-                } else {
-                    vehicleDescription = (String) text;
-                }
-            }
-        });
-    }
+//    private void vehicleDescription() {
+//        EditText vehicle_description = (EditText) findViewById(R.id.vehicle_description);
+//        vehicle_description.addTextChangedListener(new FieldValidatorUtil(vehicle_description) {
+//            @Override
+//            public void validate(EditText editText, Object text) {
+//                if (!isValidFieldText((String) text)) {
+//                    editText.setError(INVALID_EMPTY_FIELD_MESSAGE);
+//                } else {
+//                    vehicleDescription = (String) text;
+//                }
+//            }
+//        });
+//    }
 
     private void incidentDate() {
-        EditText incident_date = (EditText) findViewById(R.id.incident_date);
-        incident_date.addTextChangedListener(new FieldValidatorUtil(incident_date) {
+        incident_date = (EditText) findViewById(R.id.incident_date);
+        incident_date.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void validate(EditText editText, Object date) {
-                if (date == null) {
-                    editText.setError(INVALID_EMPTY_FIELD_MESSAGE);
-                } else {
-                    incidentDate = (Date) date;
-                }
+            public void onClick(View v) {
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePicker = new DatePickerDialog(ReportInformationActivity.this, new DatePickerDialog.OnDateSetListener(){
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay){
+                        String formattedDate = buildPrettyDateFormat(selectedYear, selectedMonth, selectedDay);
+                        incident_date.setText(formattedDate);
+                        calendar.set(selectedYear, selectedMonth, selectedDay);
+                        buildRESTDateFormat();
+                    }
+                }, year, month, day);
+
+                datePicker.setTitle("Selected date");
+                datePicker.show();
             }
         });
+
     }
 
     /**
@@ -149,20 +181,30 @@ public class ReportInformationActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             String creds = reportClient.getS3Credentials();
             try {
-                Bitmap image = (Bitmap) data.getExtras().get(IMAGE_DATA);
+                Bitmap portrait = (Bitmap) data.getExtras().get(IMAGE_DATA);
+                Bitmap thumbnail = mediaUtil.resize(portrait, MAX_SCALE_WIDTH, MAX_SCALE_HEIGHT);
+                File portraitToUpload = convertBitmapToFile(portrait, "portrait");
+                File thumbnailToUpload = convertBitmapToFile(thumbnail, "thumbnail");
+
                 imageView = (ImageView) this.findViewById(R.id.imageView);
                 setImageViewDimensions(imageView);
-                imageView.setImageBitmap(image);
+                imageView.setImageBitmap(portrait);
                 setIsCaptured(true);
 
-                File toUpload = convertBitmapToFile(image, "testing");
+                String uniqueUUID = UUID.randomUUID().toString();
+                String portraitS3Key = buildS3ImageKey(MediaType.PORTRAIT, uniqueUUID);   // build unique key to store image in s3
+                String thumbnailS3Key = buildS3ImageKey(MediaType.THUMBNAIL, uniqueUUID);
+                thumbnailData = mediaUtil.buildThumbnail(thumbnail, thumbnailS3Key);
+                portraitData = mediaUtil.buildPortrait(portrait, portraitS3Key);
+                buildReportMedia(portraitData, thumbnailData);
                 storeS3Credentials();
                 s3Util = new S3Util();
-                String s3Key = buildS3ImageKey();   // build unique key to store image in s3
-                PutObjectRequest por = buildS3PutRequest(s3Key, toUpload);
+                PutObjectRequest putPortrait = buildS3PutRequest(portraitS3Key, portraitToUpload);
+                PutObjectRequest putThumbnail = buildS3PutRequest(thumbnailS3Key, thumbnailToUpload);
                 Log.d("Put Request", "executing...");
-                s3Util.execute(por);
+                s3Util.execute(putPortrait, putThumbnail);
                 updateCaptureImageButton(cameraButton);
+                sendBylawReport();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -249,8 +291,67 @@ public class ReportInformationActivity extends AppCompatActivity {
         return por;
     }
 
-    private String buildS3ImageKey(){
-        return type.name() + "/report_" + UUID.randomUUID().toString();
+    private String buildS3ImageKey(MediaType mediaType, String uniqueUUID){
+        return String.valueOf(type) + "/" + String.valueOf(mediaType) +
+                "_report_" + uniqueUUID;
+    }
+
+    /**
+     * Build final report to send
+     * @param userInfo
+     * @param type
+     * @return
+     */
+    public BylawReport buildReport(UserInformation userInfo, ViolationType type){
+        BylawReport report = new BylawReport();
+        report.setReporterEmailAddress(userInfo.getReporterEmailAddress());
+        report.setReporterAddress(userInfo.getReporterAddress());
+        report.setReporterName(userInfo.getReporterName());
+        report.setReporterPhone(userInfo.getReporterPhone());
+        report.setReportType(type);
+        report.setDescription(incidentDescription);
+        report.setIncidentDate(incidentDate);
+        return report;
+    }
+
+    /**
+     * Build final report media to send
+     * @param portrait
+     * @param thumbnail
+     * @return
+     */
+    public void buildReportMedia(MediaData portrait, MediaData thumbnail){
+        reportMedia = new Media();
+        reportMedia.setPortrait(portrait);
+        reportMedia.setThumbNail(thumbnail);
+    }
+
+    public static Media getMedia(){
+        return reportMedia;
+    }
+
+    private void setupInputListeners(){
+        setupCameraListener();
+        reportDescription();
+        incidentDate();
+    }
+
+    private void setCalendarDate(){
+        calendar = Calendar.getInstance();
+    }
+
+    private String buildPrettyDateFormat(int year, int month, int day) {
+        StringBuilder sb = new StringBuilder();
+        return sb.append(day).append("/")
+                .append(month).append("/").append(year).toString();
+    }
+
+    private void buildRESTDateFormat(){
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date datePicked = calendar.getTime();
+        incidentDate = formatter.format(datePicked);
+        Log.d("Formatting date", "Result is: " + incidentDate);
     }
 
 }

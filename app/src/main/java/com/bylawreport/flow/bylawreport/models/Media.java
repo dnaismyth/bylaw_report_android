@@ -8,24 +8,24 @@ import java.util.Date;
  */
 public class Media {
 
-    private String fileName;
-    private Date createdDate;
+    private MediaData thumbnail;
+    private MediaData portrait;
 
     public Media () {}
 
-    public String getFileName(){
-        return fileName;
+    public MediaData getThumbNail() {
+        return thumbnail;
     }
 
-    public void setFileName(String fileName){
-        this.fileName = fileName;
+    public void setThumbNail(MediaData thumbNail) {
+        this.thumbnail = thumbNail;
     }
 
-    public Date getCreatedDate(){
-        return createdDate;
+    public MediaData getPortrait() {
+        return portrait;
     }
 
-    public void setCreatedDate(Date createdDate){
-        this.createdDate = createdDate;
+    public void setPortrait(MediaData portrait) {
+        this.portrait = portrait;
     }
 }

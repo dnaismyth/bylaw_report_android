@@ -1,14 +1,11 @@
 package com.bylawreport.flow.bylawreport.utilities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -31,26 +28,36 @@ public class S3Util extends AsyncTask<Object, Void, Object> {
     private static CognitoCachingCredentialsProvider sCredProvider;
     private static TransferUtility sTransferUtility;
 
-    private static final int PUT_OBJECT_REQUEST_INDEX = 0;
+    private static final int PUT_PORTRAIT_REQUEST_INDEX = 0;
+    private static final int PUT_THUMBNAIL_REQUEST_INDEX = 1;
 
 
     public S3Util()  {}
 
     @Override
-    protected PutObjectResult doInBackground(Object... params) {
-        PutObjectRequest por = (PutObjectRequest) params[PUT_OBJECT_REQUEST_INDEX];
-        ObjectMetadata data = buildImageMetaData(por);
-        por.setMetadata(data);
-        PutObjectResult result = null;
+    protected PutS3MediaResult doInBackground(Object... params) {
+        PutObjectRequest portraitRequest = (PutObjectRequest) params[PUT_PORTRAIT_REQUEST_INDEX];
+        PutObjectRequest thumbnailRequest = (PutObjectRequest) params[PUT_THUMBNAIL_REQUEST_INDEX];
+        ObjectMetadata portraitData = buildImageMetaData(portraitRequest);
+        ObjectMetadata thumbnailData = buildImageMetaData(thumbnailRequest);
+
+        portraitRequest.setMetadata(portraitData);
+        thumbnailRequest.setMetadata(thumbnailData);
+        PutObjectResult portraitResult = null;
+        PutObjectResult thumbnailResult = null;
+        PutS3MediaResult mediaResult = null;
         try {
             AmazonS3Client s3Client = getS3Client();
-            result = s3Client.putObject(por);
+            portraitResult = s3Client.putObject(portraitRequest);
+            thumbnailResult = s3Client.putObject(thumbnailRequest);
+            mediaResult = new PutS3MediaResult(portraitResult, thumbnailResult);
+
         } catch (AmazonServiceException ase){
             Log.i("Error Message", ase.getErrorMessage());
             Log.i("HTTP Status", "[" + ase.getStatusCode() + "]");
             Log.i("AWS Error Code", "["+ ase.getErrorCode()+"]");
         }
-        return result;
+        return mediaResult;
     }
 
 
@@ -97,8 +104,19 @@ public class S3Util extends AsyncTask<Object, Void, Object> {
         return data;
     }
 
-    protected void onPostExecute(String result){
-        super.onPostExecute(result);
+    protected void onPostExecute(Object obj){
+        super.onPostExecute(obj);
+    }
+
+    private class PutS3MediaResult {
+        private PutObjectResult thumbnail;
+        private PutObjectResult portrait;
+
+        private PutS3MediaResult(PutObjectResult portrait, PutObjectResult thumbnail){
+            this.thumbnail = thumbnail;
+            this.portrait = portrait;
+        }
+
     }
 
 }
