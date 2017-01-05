@@ -15,14 +15,18 @@ import java.net.URL;
 
 public class HttpGetRequest extends AsyncTask<String, Void, String> {
     private static final int URL_PARAM_INDEX = 0;
+    private static final int AUTH_INDEX = 1;
     private static final String REQUEST_METHOD = "GET";
     private static final String CONTENT_TYPE = "application/json; charset=utf-8";
     private static final String BEARER = "Bearer ";
 
     @Override
     protected String doInBackground(String... params){
+        String auth = null;
         String stringUrl = params[URL_PARAM_INDEX] != null ? params[URL_PARAM_INDEX] : null;
-
+        if(params.length > 1) { // if there are more parameters other than url, get authentication
+            auth = params[AUTH_INDEX] != null ? params[AUTH_INDEX] : null;
+        }
         String result;
         String inputLine;
         try {
@@ -33,8 +37,9 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
                     myUrl.openConnection();
             connect.setRequestMethod(REQUEST_METHOD); // GET
             connect.setRequestProperty("Content-Type", CONTENT_TYPE);
-            String auth = SharedPrefSingleton.getInstance().getPreferenceByName(Constants.ACCESS_TOKEN.getValue());
-            connect.setRequestProperty("Authorization", BEARER + auth); // set authorization from access token in shared prefs.
+            if(auth != null){
+                connect.setRequestProperty("Authorization", BEARER + auth); // set authorization from access token in shared prefs.
+            }
             //Connect to our url
             connect.connect();
             String responseMessage = connect.getResponseMessage();

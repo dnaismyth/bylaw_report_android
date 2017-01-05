@@ -3,7 +3,9 @@ package com.bylawreport.flow.bylawreport.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bylawreport.flow.bylawreport.activities.SharedPrefSingleton;
 import com.bylawreport.flow.bylawreport.models.BylawReport;
+import com.bylawreport.flow.bylawreport.models.Constants;
 import com.bylawreport.flow.bylawreport.models.Media;
 import com.google.gson.Gson;
 import com.loopj.android.http.*;
@@ -51,8 +53,9 @@ public class RestReportClientUsage {
         String url = buildApiUrl(GET_S3_CREDENTIALS);
         String credentials = null;
         try {
+            String auth = SharedPrefSingleton.getInstance().getPreferenceByName(Constants.ACCESS_TOKEN.getValue());
             Log.d("REPORT_CLIENT: ", "requesting S3 credentials...");
-            credentials = getRequest.execute(url).get();
+            credentials = getRequest.execute(url, auth).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

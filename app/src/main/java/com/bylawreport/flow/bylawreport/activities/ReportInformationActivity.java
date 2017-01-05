@@ -64,7 +64,7 @@ public class ReportInformationActivity extends AppCompatActivity {
     private UserInformation userInfo;
     private String incidentDescription = null;
     private String vehicleDescription = null;
-    private String incidentDate = null;
+    private static String incidentDate = null;
     private ImageView imageView;
     private Display display;
     private Button cameraButton;
