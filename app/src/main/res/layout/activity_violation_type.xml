@@ -1,35 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:background="@color/cityBlue"
-    android:orientation="vertical">
-
-<!-- Radio Group For Violation Types -->
-<RadioGroup
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
+    android:background="@color/cityBlue"
     android:orientation="vertical"
-    android:id="@+id/radioGroup_violation">
+    android:padding="20dp">
 
-    <RadioButton android:id="@+id/vehicle_violation"
+    <TextView
+        android:id="@+id/violationType_text"
+        android:text="@string/violation_header"
+        android:textColor="@color/cityBlue"
+        android:textSize="30dp"
+        android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/vehicle_violation"/>
+        android:layout_marginBottom="30dp"
+        android:padding="5dp"
+        android:background="#ffffff" />
 
-    <RadioButton android:id="@+id/property_violation"
-        android:layout_width="wrap_content"
+    <!-- Radio Group For Violation Types -->
+    <RadioGroup
+        android:id="@+id/radioGroup_violation"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/property_violation"/>
+        android:orientation="vertical"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="10dp"
+        android:paddingTop="20dp">
 
-    <RadioButton android:id="@+id/other_violation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/other_violation" />
+        <RadioButton
+            android:id="@+id/vehicle_violation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:padding="15dp"
+            android:text="@string/vehicle_violation" />
 
-</RadioGroup>
+        <RadioButton
+            android:id="@+id/property_violation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:padding="15dp"
+            android:text="@string/property_violation" />
+
+        <RadioButton
+            android:id="@+id/other_violation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:padding="15dp"
+            android:text="@string/other_violation" />
+
+    </RadioGroup>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,10 +61,10 @@
 
         <Button
             android:id="@+id/beginUserInfoBtn"
-            android:layout_width="match_parent"
-            android:text="@string/button_continue"
             style="@style/continueButton"
-            android:onClick="sendViolationTypeChoice"/>
+            android:layout_width="match_parent"
+            android:onClick="sendViolationTypeChoice"
+            android:text="@string/button_continue" />
 
     </RelativeLayout>
 </LinearLayout>

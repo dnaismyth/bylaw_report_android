@@ -20,4 +20,5 @@
     <string name="attach_picture">Attach Image</string>
     <string name="request_permission">Please enable camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="violation_header">Please select the type of violation you will be reporting.</string>
 </resources>
