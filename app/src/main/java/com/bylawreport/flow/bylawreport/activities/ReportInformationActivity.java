@@ -75,6 +75,8 @@ public class ReportInformationActivity extends AppCompatActivity {
     private static Media reportMedia;
     private static MediaData thumbnailData;
     private static MediaData portraitData;
+    private static PutObjectRequest putPortrait;
+    private static PutObjectRequest putThumbnail;
     private EditText incident_date;
     private Calendar calendar;
 
@@ -92,7 +94,13 @@ public class ReportInformationActivity extends AppCompatActivity {
         setupInputListeners();
     }
 
-    public void sendBylawReport() {
+    public void sendBylawReport(View view) {
+        if(putPortrait != null && putThumbnail != null){
+            Log.d("Put Request", "fetching credentials...");
+            storeS3Credentials();
+            Log.d("Put Request", "executing...");
+            s3Util.execute(putPortrait, putThumbnail);
+        }
         BylawReport finalReport = buildReport(userInfo, type);
         reportClient.createBylawReport(finalReport, getMedia());
     }
@@ -197,14 +205,10 @@ public class ReportInformationActivity extends AppCompatActivity {
                 thumbnailData = mediaUtil.buildThumbnail(thumbnail, thumbnailS3Key);
                 portraitData = mediaUtil.buildPortrait(portrait, portraitS3Key);
                 buildReportMedia(portraitData, thumbnailData);
-                storeS3Credentials();
                 s3Util = new S3Util();
-                PutObjectRequest putPortrait = buildS3PutRequest(portraitS3Key, portraitToUpload);
-                PutObjectRequest putThumbnail = buildS3PutRequest(thumbnailS3Key, thumbnailToUpload);
-                Log.d("Put Request", "executing...");
-                s3Util.execute(putPortrait, putThumbnail);
+                putPortrait = buildS3PutRequest(portraitS3Key, portraitToUpload);
+                putThumbnail = buildS3PutRequest(thumbnailS3Key, thumbnailToUpload);
                 updateCaptureImageButton(cameraButton);
-                sendBylawReport();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -260,7 +264,6 @@ public class ReportInformationActivity extends AppCompatActivity {
         SharedPrefSingleton.getInstance().writePreference(Constants.S3_SECRET_KEY.getValue(), secretKey);
         SharedPrefSingleton.getInstance().writePreference(Constants.S3_SESSION_TOKEN.getValue(), sessionToken);
         SharedPrefSingleton.getInstance().writePreference(Constants.S3_BUCKET.getValue(), s3Bucket);
-
     }
 
     private File convertBitmapToFile(Bitmap map, String fileName){
@@ -351,7 +354,6 @@ public class ReportInformationActivity extends AppCompatActivity {
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date datePicked = calendar.getTime();
         incidentDate = formatter.format(datePicked);
-        Log.d("Formatting date", "Result is: " + incidentDate);
     }
 
 }
