@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bylaw Report</string>
-    <string name="user_info_message">Please provide us with some information.</string>
+    <string name="user_info_message">Please provide us with the following personal information.</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">E-mail</string>

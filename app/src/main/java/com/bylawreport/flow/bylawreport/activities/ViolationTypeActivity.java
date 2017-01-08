@@ -1,8 +1,11 @@
 package com.bylawreport.flow.bylawreport.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -43,8 +46,7 @@ public class ViolationTypeActivity extends AppCompatActivity {
        violationTypeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
            @Override
            public void onCheckedChanged(RadioGroup group, int checkedId) {
-               RadioButton rb = (RadioButton) group.findViewById(checkedId);
-
+               AppCompatRadioButton rb = (AppCompatRadioButton) group.findViewById(checkedId);
                if(null!=rb && checkedId > -1){
                    String buttonId = getButtonStringId(rb, checkedId);
                    switch(buttonId){

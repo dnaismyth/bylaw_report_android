@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/cityBlue"
+    android:background="@color/white"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -10,23 +10,23 @@
         android:id="@+id/violationType_text"
         android:text="@string/violation_header"
         android:textColor="@color/cityBlue"
-        android:textSize="30dp"
+        android:textSize="40dp"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_margin="30dp"
         android:padding="5dp"
         android:background="#ffffff" />
 
     <!-- Radio Group For Violation Types -->
     <RadioGroup
+        android:background="@color/cityBlue"
         android:id="@+id/radioGroup_violation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical|center_horizontal"
-        android:padding="10dp"
-        android:paddingTop="20dp">
+        android:padding="30dp">
 
         <RadioButton
             android:id="@+id/vehicle_violation"
@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:textSize="40dp"
             android:padding="15dp"
+            android:buttonTint="@color/white"
             android:text="@string/vehicle_violation" />
 
         <RadioButton
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:textSize="40dp"
             android:padding="15dp"
+            android:buttonTint="@color/white"
             android:text="@string/property_violation" />
 
         <RadioButton
@@ -50,6 +52,7 @@
             android:layout_height="wrap_content"
             android:textSize="40dp"
             android:padding="15dp"
+            android:buttonTint="@color/white"
             android:text="@string/other_violation" />
 
     </RadioGroup>
@@ -63,6 +66,7 @@
             android:id="@+id/beginUserInfoBtn"
             style="@style/continueButton"
             android:layout_width="match_parent"
+            android:textSize="40dp"
             android:onClick="sendViolationTypeChoice"
             android:text="@string/button_continue" />
 
