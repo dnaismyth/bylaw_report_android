@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bylaw Report</string>
-    <string name="user_info_message">Please provide us with the following personal information.</string>
+    <string name="user_info_message">Please provide us with the following contact information.</string>
+    <string name="report_info_message">Please provide us with the following incident information.</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">E-mail</string>
@@ -12,8 +13,8 @@
     <string name="report_continue">Begin Report</string>
     <string name="main_title">Bylaw Report</string>
     <string name="incident_date">Date of Incident</string>
-    <string name="report_description">Please provide us with a description of the incident</string>
-    <string name="vehicle_description">Please provide us with a description of the vehicle</string>
+    <string name="report_description">Incident Description</string>
+    <string name="vehicle_description">Vehicle Description</string>
     <string name="vehicle_violation">Vehicle</string>
     <string name="property_violation">Property</string>
     <string name="other_violation">Other</string>

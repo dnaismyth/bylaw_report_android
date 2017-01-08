@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:background="@color/cityBlue"
-    android:orientation="vertical">
+    android:background="@color/activityBackground"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-        <EditText android:id="@+id/incident_date"
+    <TextView
+        android:id="@+id/violationType_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="30dp"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/report_info_message"
+        android:textColor="@color/cityBlueAccent"
+        android:textSize="40dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cityBlue"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/incident_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/incident_date" />
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_design"
+            android:hint="@string/incident_date"
+            android:padding="5dp"
+            android:textCursorDrawable="@null"
+            android:textSize="35dp" />
 
         <!--<EditText android:id="@+id/vehicle_description"
             android:layout_width="match_parent"
@@ -18,26 +45,30 @@
             android:layout_weight="0.3"
             android:hint="@string/vehicle_description" />-->
 
-        <EditText android:id="@+id/report_description"
+        <EditText
+            android:id="@+id/report_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/report_description" />
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_design"
+            android:hint="@string/report_description"
+            android:padding="5dp"
+            android:textCursorDrawable="@null"
+            android:layout_weight="3"
+            android:textSize="30dp" />
+    </LinearLayout>
 
-    <!--<EditText android:id="@+id/email"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email" />-->
-
-    <ImageView android:id="@+id/imageView"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/attach_image_btn"
+        style="@style/continueButton"
         android:layout_width="match_parent"
-        android:text="Attach Image"
-        style="@style/continueButton" />
+        android:text="Attach Image" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -45,10 +76,11 @@
         android:gravity="bottom">
 
         <Button
-            android:layout_width="match_parent"
-            android:text="@string/send_report"
             style="@style/continueButton"
-            android:onClick="sendBylawReport" />
+            android:layout_width="match_parent"
+            android:onClick="sendBylawReport"
+            android:text="@string/send_report"
+            android:textSize="40dp" />
 
     </RelativeLayout>
 </LinearLayout>
